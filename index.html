@@ -3,21 +3,17 @@
 <head>
     <title>AngularJS Demo</title>
     <script src="angular.min.js"></script>
+    <script src="controllers.js"></script>
+    <script src="filters.js"></script>
+
     <script>
-        var myApp = angular.module("exampleApp", []);
-
+        var myApp = angular.module("exampleApp", ["exampleApp.Controllers", "exampleApp.Filters", "exampleApp.Services", "exampleApp.Directives"]);
+        
         var now = new Date();
-        //myApp.value("nowValue", now);
+        myApp.value("nowValue", now);
 
-        myApp.controller("dayCtrl", function ($scope, days) {
-            $scope.day = days.today;
-        });
-
-        myApp.controller("tomorrowCtrl", function ($scope, days) {
-            $scope.tomorrow = days.tomorrow;
-        });
-
-        myApp.directive("highlight", function ($filter) {
+        angular.module("exampleApp.Directives",[])
+            .directive("highlight", function ($filter) {
             var dayFilter = $filter("dayName");
 
             return function (scope, element, attrs) {
@@ -27,30 +23,11 @@
             }
         });
 
-        myApp.filter("dayName", function () {
-            return function (input) {
-                var day = getNameOfDay(input);
-
-                return day == "Thursday" ? "Thursday" : "not Thursday";
-            }
-        });
-
-        myApp.service("days", function () {
-            this.today = now.getDay();
+        angular.module("exampleApp.Services",[])
+        myApp.service("days", function (nowValue) {
+            this.today = nowValue.getDay();
             this.tomorrow = this.today + 1;
         });
-
-        function getNameOfDay(input) {
-            var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-            let day = "unknown";
-
-            if (angular.isNumber(input)) {
-                day = dayNames[input];
-            }
-
-            return day;
-        }
     </script>
 </head>
 <body>
