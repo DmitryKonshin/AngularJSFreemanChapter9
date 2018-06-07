@@ -2,14 +2,12 @@
 <html ng-app="exampleApp">
 <head>
     <title>AngularJS Demo</title>
-    <link href="bootstrap.css" rel="stylesheet" />
-    <link href="bootstrap-theme.css" rel="stylesheet" />
     <script src="angular.min.js"></script>
     <script>
         var myApp = angular.module("exampleApp", []);
 
         var now = new Date();
-        myApp.value("nowValue", now);
+        //myApp.value("nowValue", now);
 
         myApp.controller("dayCtrl", function ($scope, days) {
             $scope.day = days.today;
@@ -37,8 +35,8 @@
             }
         });
 
-        myApp.service("days", function (nowValue) {
-            this.today = nowValue.getDay();
+        myApp.service("days", function () {
+            this.today = now.getDay();
             this.tomorrow = this.today + 1;
         });
 
